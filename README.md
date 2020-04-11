@@ -1,6 +1,10 @@
 # Java-SpringBoot
-Traditional java spring boot tech stack.
-Is not using spring-data-repositories in this stack.
+Project for comparing different technology stacks.
+For more information see: [MovieApi](https://gitlab.com/tests19/movieapi) 
+
+## Tech stack
+* Java
+* "Traditional" Spring boot (no rest-repositories).
 
 ## Requirements
 
@@ -19,12 +23,13 @@ Is not using spring-data-repositories in this stack.
   * [x] Unit tests where appropriate
   * [x] API Tests (Rest layer)
   * [x] Database integration tests (h2 in memory is fine)
-* [ ] Pipeline running in Gitlab: https://docs.gitlab.com/ee/user/packages/workflows/monorepo.html
-  * [ ] Build
-  * [ ] Test with reports
-  * [ ] Sonar analysis, with code coverage 
+* [x] Pipeline running in Gitlab: https://docs.gitlab.com/ee/user/packages/workflows/monorepo.html
+  * [x] Build
+  * [x] Test with reports
+  * [x] Sonar analysis, with code coverage 
 * [ ] Containerization
-  * [ ] Build container
+  * [x] Working image
+  * [ ] Build container in pipeline
   * [ ] Push to container registry
 
 ### Optional
