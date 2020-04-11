@@ -11,7 +11,7 @@
 	<groupId>se.visegue</groupId>
 	<artifactId>java-spring-boot-movieapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>MovieApi</name>
+	<name>MovieApi - JavaSpringBoot</name>
 	<description>Project for creating a simple api with the purpose of comparing technology stacks.</description>
 
 	<properties>
