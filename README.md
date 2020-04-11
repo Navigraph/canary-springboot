@@ -1,4 +1,4 @@
-# Java-SpringBoot
+# MovieApi - Java-SpringBoot
 Project for comparing different technology stacks.
 For more information see: [MovieApi](https://gitlab.com/tests19/movieapi) 
 
