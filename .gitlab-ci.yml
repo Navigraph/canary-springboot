@@ -4,10 +4,6 @@ variables:
   SONAR_HOST_URL: "http://sonar.visegue.se"
   GIT_DEPTH: 0
 
-except:
-  changes:
-    - README.md
-
 cache:
   paths:
     - .m2/repository/
