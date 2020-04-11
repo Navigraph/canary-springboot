@@ -23,7 +23,7 @@ test:
     - mvn test verify sonar:sonar -Dsonar.qualitygate.wait=true
   artifacts:
     paths:
-      - ./**/jacoco.xml
+      - target/**/jacoco.xml
     reports:
       junit:
         - target/surefire-reports/TEST-*.xml
