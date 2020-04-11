@@ -4,12 +4,16 @@ variables:
   SONAR_HOST_URL: "http://sonar.visegue.se"
   GIT_DEPTH: 0
 
+except:
+  changes:
+    - README.md
+
 cache:
   paths:
     - .m2/repository/
     - target/
 
-java-spring-boot-build:
+build:
   stage: build
   script:
     - mvn clean package -f pom.xml
@@ -17,7 +21,7 @@ java-spring-boot-build:
     paths:
       - target/*.jar
 
-java-spring-boot-test:
+test:
   stage: test
   script:
     - mvn test verify sonar:sonar -Dsonar.qualitygate.wait=true
