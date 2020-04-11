@@ -1,0 +1,43 @@
+image: maven:3.6.3-jdk-13
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  SONAR_HOST_URL: "http://sonar.visegue.se"
+  GIT_DEPTH: 0
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+java-spring-boot-build:
+  stage: build
+  script:
+    - mvn clean package -f pom.xml
+  artifacts:
+    paths:
+      - target/*.jar
+
+java-spring-boot-test:
+  stage: test
+  script:
+    - mvn test verify sonar:sonar -Dsonar.qualitygate.wait=true
+  artifacts:
+    paths:
+      - ./**/jacoco.xml
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
+
+#java-spring-boot-build-container:
+ # stage: build
+ # image:
+ #   name: gcr.io/kaniko-project/executor:debug
+ #   entrypoint: [""]
+ # script:
+ #   - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+ #   - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+ # only:
+ #   - tags
+
+
