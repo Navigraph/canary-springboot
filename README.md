@@ -1,4 +1,7 @@
 # MovieApi - Java-SpringBoot
+[![pipeline status](https://gitlab.com/tests19/movieapijavaspringboot/badges/master/pipeline.svg)](https://gitlab.com/tests19/movieapijavaspringboot/-/commits/master)
+[![coverage report](https://gitlab.com/tests19/movieapijavaspringboot/badges/master/coverage.svg)](https://gitlab.com/tests19/movieapijavaspringboot/-/commits/master)
+
 Project for comparing different technology stacks.
 For more information see: [MovieApi](https://gitlab.com/tests19/movieapi) 
 
