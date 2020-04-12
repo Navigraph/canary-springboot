@@ -1,6 +1,8 @@
 package se.visegue.movieapi.movies.dao;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import se.visegue.movieapi.utils.StringListConverter;
 
 import javax.persistence.*;
@@ -14,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Movie {
+public class MovieEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

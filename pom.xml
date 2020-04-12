@@ -18,7 +18,7 @@
 		<java.version>11</java.version>
 		<spring-cloud.version>Hoxton.SR3</spring-cloud.version>
 		<!-- Sonar properties -->
-		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml,${project.build.directory}/site/jacoco-it/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.junit.reportPaths>${project.build.directory}/surefire-reports/,${project.build.directory}/failsafe-reports/</sonar.junit.reportPaths>
 	</properties>
 
@@ -76,6 +76,12 @@
 			<version>3.15.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>nl.jqno.equalsverifier</groupId>
+			<artifactId>equalsverifier</artifactId>
+			<version>3.1.13</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -100,8 +106,11 @@
 							<goal>prepare-agent</goal>
 							<goal>prepare-agent-integration</goal>
 							<goal>report</goal>
-							<goal>report-integration</goal>
 						</goals>
+						<configuration>
+							<destFile>${project.build.directory}/jacoco.exec</destFile>
+							<append>true</append>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

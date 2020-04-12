@@ -34,17 +34,17 @@ class MovieRepositoryIT {
     public void givenMovies_whenFetchingAll_shouldGetMovies() {
         // Given
         // When
-        List<Movie> movies = repository.findAll();
+        List<MovieEntity> movies = repository.findAll();
 
         // Then
-        assertThat(movies).extracting(Movie::getTitle).containsExactlyInAnyOrderElementsOf(MOVIE_TITLES);
+        assertThat(movies).extracting(MovieEntity::getTitle).containsExactlyInAnyOrderElementsOf(MOVIE_TITLES);
     }
 
     @Test
     public void givenMovies_whenFetchingToyStory_shouldGetToyStory() {
         // Given
         // When
-        Optional<Movie> actual = repository.findById(1L);
+        Optional<MovieEntity> actual = repository.findById(1L);
 
         //Then
         SoftAssertions assertions = new SoftAssertions();
@@ -57,7 +57,7 @@ class MovieRepositoryIT {
     @Test
     public void givenMovies_whenSavingPersistedMovie_shouldUpdateVersion() {
         // Given
-        Optional<Movie> actual = repository.findById(1L);
+        Optional<MovieEntity> actual = repository.findById(1L);
         int originalVersion = actual.get().getVersion();
 
         // When
@@ -79,10 +79,10 @@ class MovieRepositoryIT {
     @Test
     public void givenUnpersistedMovie_whenSavingMovie_shouldReturnWithGeneratedId() {
         // Given
-        Movie movie = createMovie("New movie", "Genre1|Genre2");
+        MovieEntity movie = createMovie("New movie", "Genre1|Genre2");
 
         // When
-        Movie savedMovie = repository.save(movie);
+        MovieEntity savedMovie = repository.save(movie);
 
         // Then
         assertThat(savedMovie.getId()).isNotNull();
@@ -91,13 +91,13 @@ class MovieRepositoryIT {
     @Test
     public void givenUnpersistedMovie_whenSavingMovie_shouldBeSearchable() {
         // Given
-        Movie movie = createMovie("New movie", "Genre3|Genre4");
+        MovieEntity movie = createMovie("New movie", "Genre3|Genre4");
 
         // When
-        Movie savedMovie = repository.save(movie);
+        MovieEntity savedMovie = repository.save(movie);
 
         // Then
-        Optional<Movie> searchedMovie = repository.findById(savedMovie.getId());
+        Optional<MovieEntity> searchedMovie = repository.findById(savedMovie.getId());
 
         SoftAssertions assertions = new SoftAssertions();
         assertions.assertThat(searchedMovie).isPresent();
@@ -110,10 +110,10 @@ class MovieRepositoryIT {
     @Test
     public void givenUnpersistedMovie_whenSavingMovie_shouldHave0Version() {
         // Given
-        Movie movie = createMovie("New Movie", "");
+        MovieEntity movie = createMovie("New Movie", "");
 
         // When
-        Movie saved = repository.save(movie);
+        MovieEntity saved = repository.save(movie);
 
         // Then
         assertThat(saved.getVersion()).isEqualTo(0);

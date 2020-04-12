@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class MovieApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MovieApiApplication.class, args);
+		SpringApplication.run(MovieApiApplication.class);
 	}
 
 }

@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.visegue.movieapi.errors.InvalidResourceException;
 import se.visegue.movieapi.errors.ResourceNotFoundException;
-import se.visegue.movieapi.movies.dao.Movie;
+import se.visegue.movieapi.movies.dao.MovieEntity;
 import se.visegue.movieapi.movies.dao.MovieRepository;
 
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ class MovieServiceTest {
         // Given
         when(movieRepository.findById(3L)).thenReturn(Optional.of(createMovie(3L)));
         // When
-        Movie movie = movieService.findById(3L);
+        MovieEntity movie = movieService.findById(3L);
         // Then
-        List<Movie> all = movieRepository.findAll();
+        List<MovieEntity> all = movieRepository.findAll();
         assertThat(movie).isNotNull();
         assertThat(movie.getId()).isEqualTo(3L);
         Mockito.verify(movieRepository, times(1)).findById(3L);
@@ -62,7 +62,7 @@ class MovieServiceTest {
         when(movieRepository.findAll()).thenReturn(new ArrayList<>());
 
         // Then
-        List<Movie> movies = movieService.findAll();
+        List<MovieEntity> movies = movieService.findAll();
 
         // Then
         assertThat(movies).isEmpty();
@@ -74,16 +74,16 @@ class MovieServiceTest {
         when(movieRepository.findAll()).thenReturn(Arrays.asList(createMovie(1L), createMovie(3L)));
 
         // When
-        List<Movie> movies = movieService.findAll();
+        List<MovieEntity> movies = movieService.findAll();
 
         // Then
-        assertThat(movies).extracting(Movie::getId).containsExactlyInAnyOrder(1L, 3L);
+        assertThat(movies).extracting(MovieEntity::getId).containsExactlyInAnyOrder(1L, 3L);
     }
 
     @Test
     public void givenMovieWithId_whenCreatingMovie_shouldThrowInvalidResourceException() {
         // Given
-        Movie movie = createMovie(1L);
+        MovieEntity movie = createMovie(1L);
 
         // When
         // Then
@@ -95,12 +95,12 @@ class MovieServiceTest {
     @Test
     public void givenNewMovie_whenCreatingMovie_shouldReturnMovie() {
         // Given
-        Movie newMovie = new Movie();
-        Movie persistedMovie = new Movie();
+        MovieEntity newMovie = new MovieEntity();
+        MovieEntity persistedMovie = new MovieEntity();
         when(movieRepository.save(newMovie)).thenReturn(persistedMovie);
 
         // When
-        Movie movie = movieService.createMovie(newMovie);
+        MovieEntity movie = movieService.createMovie(newMovie);
 
         // Then
         assertThat(movie).isSameAs(persistedMovie);
@@ -113,7 +113,7 @@ class MovieServiceTest {
 
         // When
         // Then
-        assertThatThrownBy(() -> movieService.updateMovie(3L, new Movie()))
+        assertThatThrownBy(() -> movieService.updateMovie(3L, new MovieEntity()))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("3");
     }
@@ -133,13 +133,13 @@ class MovieServiceTest {
     @Test
     public void givenExistingMovie_whenUpdatingMovie_shouldReturnMovie() {
         // Given
-        Movie existingMovie = createMovie(3L);
-        Movie expected = new Movie();
+        MovieEntity existingMovie = createMovie(3L);
+        MovieEntity expected = new MovieEntity();
         when(movieRepository.findById(3L)).thenReturn(Optional.of(existingMovie));
-        when(movieRepository.save(any(Movie.class))).thenReturn(expected);
+        when(movieRepository.save(any(MovieEntity.class))).thenReturn(expected);
 
         // When
-        Movie actual = movieService.updateMovie(3L, createMovie(3L));
+        MovieEntity actual = movieService.updateMovie(3L, createMovie(3L));
 
         // Then
         assertThat(actual).isSameAs(expected);

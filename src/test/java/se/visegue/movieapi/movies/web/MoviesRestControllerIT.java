@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import se.visegue.movieapi.errors.InvalidResourceException;
 import se.visegue.movieapi.errors.ResourceNotFoundException;
-import se.visegue.movieapi.movies.dao.Movie;
+import se.visegue.movieapi.movies.dao.MovieEntity;
 import se.visegue.movieapi.movies.domain.MovieService;
 
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ class MoviesRestControllerIT {
     @Test
     public void givenNewMovie_whenCreatingMovie_shouldReturnCreated() throws Exception {
         // Given
-        when(movieService.createMovie(any(Movie.class))).thenReturn(new Movie());
+        when(movieService.createMovie(any(MovieEntity.class))).thenReturn(new MovieEntity());
 
         // When
         // Then
@@ -110,7 +110,7 @@ class MoviesRestControllerIT {
     @Test
     public void givenInvalidResource_whenCreatingMovie_shouldReturn422() throws Exception {
         // Given
-        when(movieService.createMovie(any(Movie.class))).thenThrow(new InvalidResourceException("Invalid resource"));
+        when(movieService.createMovie(any(MovieEntity.class))).thenThrow(new InvalidResourceException("Invalid resource"));
 
         // When
         // Then
@@ -123,7 +123,7 @@ class MoviesRestControllerIT {
     @Test
     public void givenNoTitle_whenCreatingMovie_shouldReturn400() throws Exception {
         // Given
-        when(movieService.createMovie(any(Movie.class))).thenThrow(new InvalidResourceException("Invalid resource"));
+        when(movieService.createMovie(any(MovieEntity.class))).thenThrow(new InvalidResourceException("Invalid resource"));
 
         // When
         // Then
@@ -136,7 +136,7 @@ class MoviesRestControllerIT {
     @Test
     public void givenInvalidResource_whenUpdatingMovie_shouldReturn400() throws Exception {
         // Given
-        when(movieService.updateMovie(eq(3L), any(Movie.class))).thenThrow(new InvalidResourceException("Invalid resource"));
+        when(movieService.updateMovie(eq(3L), any(MovieEntity.class))).thenThrow(new InvalidResourceException("Invalid resource"));
 
         // When
         // Then
@@ -149,7 +149,7 @@ class MoviesRestControllerIT {
     @Test
     public void givenNoTitle_whenUpdatingMovie_shouldReturn400() throws Exception {
         // Given
-        when(movieService.updateMovie(eq(3L), any(Movie.class))).thenThrow(new InvalidResourceException("Invalid resource"));
+        when(movieService.updateMovie(eq(3L), any(MovieEntity.class))).thenThrow(new InvalidResourceException("Invalid resource"));
 
         // When
         // Then
@@ -162,7 +162,7 @@ class MoviesRestControllerIT {
     @Test
     public void givenMovie_whenUpdating_shouldReturn204() throws Exception {
         // Given
-        when(movieService.updateMovie(eq(3L), any(Movie.class))).thenReturn(new Movie());
+        when(movieService.updateMovie(eq(3L), any(MovieEntity.class))).thenReturn(new MovieEntity());
 
         // When
         // Then
@@ -197,7 +197,7 @@ class MoviesRestControllerIT {
      *
      * @param movie The movie that exists
      */
-    private void given(Movie movie) {
+    private void given(MovieEntity movie) {
         given(List.of(movie));
     }
 
@@ -206,7 +206,7 @@ class MoviesRestControllerIT {
      *
      * @param movies The movies that exists.
      */
-    private void given(List<Movie> movies) {
+    private void given(List<MovieEntity> movies) {
         movies.forEach(movie -> when(movieService.findById(movie.getId())).thenReturn(movie));
         when(movieService.findAll()).thenReturn(movies);
     }

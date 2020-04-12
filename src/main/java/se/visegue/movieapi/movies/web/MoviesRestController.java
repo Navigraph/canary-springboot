@@ -1,15 +1,17 @@
 package se.visegue.movieapi.movies.web;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import se.visegue.movieapi.movies.dao.Movie;
+import se.visegue.movieapi.movies.dao.MovieEntity;
 import se.visegue.movieapi.movies.domain.MovieService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The RestController is using the Movie entity directly.
@@ -26,24 +28,26 @@ public class MoviesRestController {
     }
 
     @GetMapping
-    public List<Movie> findMovies() {
-        return movieService.findAll();
+    public List<MovieDto> findMovies() {
+        return movieService.findAll().stream()
+                .map(this::dtoFromEntity)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Movie getMovie(@PathVariable Long id) {
-        return movieService.findById(id);
+    public MovieDto getMovie(@PathVariable Long id) {
+        return dtoFromEntity(movieService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity createMovie(@RequestBody @Validated Movie movie) throws URISyntaxException {
-        Movie createdMoved = movieService.createMovie(movie);
+    public ResponseEntity createMovie(@RequestBody @Validated MovieEntity movie) throws URISyntaxException {
+        MovieEntity createdMoved = movieService.createMovie(movie);
         return ResponseEntity.created(new URI("/movies/" + createdMoved.getId())).build();
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateMovie(@PathVariable Long id, @RequestBody @Validated Movie movie) {
+    public void updateMovie(@PathVariable Long id, @RequestBody @Validated MovieEntity movie) {
         movieService.updateMovie(id, movie);
     }
 
@@ -51,5 +55,16 @@ public class MoviesRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMovie(@PathVariable Long id) {
         movieService.deleteById(id);
+    }
+
+    /**
+     * Creates a {@link MovieDto} from a {@link MovieEntity}
+     * @param entity The entity to map.
+     * @return A {@link MovieDto}
+     */
+    private MovieDto dtoFromEntity(MovieEntity entity) {
+        var dto = new MovieDto();
+        BeanUtils.copyProperties(entity, dto);
+        return dto;
     }
 }
