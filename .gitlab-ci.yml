@@ -5,7 +5,8 @@ variables:
   GIT_DEPTH: 0
 
 default:
-  cache:
+  cache: &global_cache
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
     paths:
       - .m2/repository/
       - target/
@@ -45,6 +46,9 @@ build:container:
 
 pages:
   stage: deploy
+  cache:
+    <<: *global_cache
+    policy: pull
   dependencies:
     - test
   script:
