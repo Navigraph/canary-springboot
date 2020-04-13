@@ -50,19 +50,3 @@ build:container:
   only:
     - tags
 
-pages:
-  stage: deploy
-  cache:
-    <<: *global_cache
-    policy: pull
-  dependencies:
-    - test
-  script:
-    - mv target/site/jacoco/ public/
-  artifacts:
-    paths:
-      - public
-    expire_in: 30 days
-  only:
-    - master
-
