@@ -40,15 +40,15 @@ public class MoviesRestController {
     }
 
     @PostMapping
-    public ResponseEntity createMovie(@RequestBody @Validated MovieEntity movie) throws URISyntaxException {
-        MovieEntity createdMoved = movieService.createMovie(movie);
+    public ResponseEntity createMovie(@RequestBody @Validated MovieDto movie) throws URISyntaxException {
+        MovieEntity createdMoved = movieService.createMovie(entityFromDto(movie));
         return ResponseEntity.created(new URI("/movies/" + createdMoved.getId())).build();
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateMovie(@PathVariable Long id, @RequestBody @Validated MovieEntity movie) {
-        movieService.updateMovie(id, movie);
+    public void updateMovie(@PathVariable Long id, @RequestBody @Validated MovieDto movie) {
+        movieService.updateMovie(id, entityFromDto(movie));
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +56,10 @@ public class MoviesRestController {
     public void deleteMovie(@PathVariable Long id) {
         movieService.deleteById(id);
     }
+
+    //
+    // In a real case the serialization/deserialization would be done in a separate object for testability.
+    //
 
     /**
      * Creates a {@link MovieDto} from a {@link MovieEntity}
@@ -66,5 +70,16 @@ public class MoviesRestController {
         var dto = new MovieDto();
         BeanUtils.copyProperties(entity, dto);
         return dto;
+    }
+
+    /**
+     * Creates a {@link MovieEntity} from a  {@link MovieDto}
+     * @param dto
+     * @return a {@link MovieEntity}
+     */
+    private MovieEntity entityFromDto(MovieDto dto) {
+        var entity = new MovieEntity();
+        BeanUtils.copyProperties(dto, entity);
+        return entity;
     }
 }
