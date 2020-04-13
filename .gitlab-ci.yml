@@ -4,6 +4,12 @@ variables:
   SONAR_HOST_URL: "http://sonar.visegue.se"
   GIT_DEPTH: 0
 
+stages:
+  - build
+  - test
+  - package
+  - deploy
+
 default:
   cache: &global_cache
     key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
@@ -34,7 +40,7 @@ test:
         - target/failsafe-reports/TEST-*.xml
 
 build:container:
-  stage: build
+  stage: package
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
