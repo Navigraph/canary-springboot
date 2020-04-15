@@ -123,13 +123,23 @@ class MoviesRestControllerIT {
     @Test
     public void givenNoTitle_whenCreatingMovie_shouldReturn400() throws Exception {
         // Given
-        when(movieService.createMovie(any(MovieEntity.class))).thenThrow(new InvalidResourceException("Invalid resource"));
-
         // When
         // Then
         mockMvc.perform(post("/movies")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(createMovie(null, ""))))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    public void givenEmptyTitle_whenCreatingMovie_shouldReturn400() throws Exception {
+        // Given
+        // When
+        // Then
+        mockMvc.perform(post("/movies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(createMovie("", ""))))
                 .andExpect(status().isBadRequest());
     }
 
@@ -148,6 +158,19 @@ class MoviesRestControllerIT {
 
     @Test
     public void givenNoTitle_whenUpdatingMovie_shouldReturn400() throws Exception {
+        // Given
+        when(movieService.updateMovie(eq(3L), any(MovieEntity.class))).thenThrow(new InvalidResourceException("Invalid resource"));
+
+        // When
+        // Then
+        mockMvc.perform(put("/movies/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(createMovie(3L, "Title", "genre"))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void givenEmptyTitle_whenUpdatingMovie_shouldReturn400() throws Exception {
         // Given
         when(movieService.updateMovie(eq(3L), any(MovieEntity.class))).thenThrow(new InvalidResourceException("Invalid resource"));
 
