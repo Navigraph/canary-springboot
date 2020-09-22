@@ -8,10 +8,10 @@
 		<version>2.2.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>se.visegue</groupId>
-	<artifactId>java-spring-boot-movieapi</artifactId>
+	<groupId>com.navigraph</groupId>
+	<artifactId>canary-springboot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>MovieApi - JavaSpringBoot</name>
+	<name>Canary - SpringBoot</name>
 	<description>Project for creating a simple api with the purpose of comparing technology stacks.</description>
 
 	<properties>
