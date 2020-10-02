@@ -29,9 +29,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Initialize CodeQL
-          uses: github/codeql-action/init@v1
-          with:
-            languages: java
+        uses: github/codeql-action/init@v1
+        with:
+          languages: java
 
       - name: Build
         run: mvn -B clean package
