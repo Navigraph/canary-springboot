@@ -20,6 +20,9 @@
 		<!-- Sonar properties -->
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.junit.reportPaths>${project.build.directory}/surefire-reports/,${project.build.directory}/failsafe-reports/</sonar.junit.reportPaths>
+		<sonar.projectKey>Navigraph_canary-springboot</sonar.projectKey>
+		<sonar.organization>navigraph</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<dependencies>
