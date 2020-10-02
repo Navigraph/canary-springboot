@@ -2,12 +2,12 @@ name: Build
 on: push
 jobs:
   build:
-    name: Build
+    name: Build and analyze
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 2
 
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -28,11 +28,22 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: java
+
       - name: Build
         run: mvn -B clean package
 
-      - name: Test and analyze
+      - name: Test
+        run: mvn test verify
+
+      - name: Perform Sonar Analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn test verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
